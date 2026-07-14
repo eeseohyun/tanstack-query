@@ -3,9 +3,21 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { queryClient } from './queryClient';
 import TodosDemo from './TodosDemo';
+import InfiniteTodosDemo from './InfiniteTodosDemo';
+import SuspenseTodosDemo from './SuspenseTodosDemo';
+
+type DemoMode = 'basic' | 'infinite' | 'suspense';
 
 export default function App() {
   const [showDemo, setShowDemo] = useState(true);
+  const [mode, setMode] = useState<DemoMode>('basic');
+
+  const renderDemo = () => {
+    if (!showDemo) return null;
+    if (mode === 'infinite') return <InfiniteTodosDemo />;
+    if (mode === 'suspense') return <SuspenseTodosDemo />;
+    return <TodosDemo />;
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -21,7 +33,25 @@ export default function App() {
           {showDemo ? '컴포넌트 언마운트' : '마운트'}
         </button>
 
-        <div style={{ marginTop: 16 }}>{showDemo && <TodosDemo />}</div>
+        <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+          <button disabled={mode === 'basic'} onClick={() => setMode('basic')}>
+            기본
+          </button>
+          <button
+            disabled={mode === 'infinite'}
+            onClick={() => setMode('infinite')}
+          >
+            무한스크롤
+          </button>
+          <button
+            disabled={mode === 'suspense'}
+            onClick={() => setMode('suspense')}
+          >
+            Suspense
+          </button>
+        </div>
+
+        <div style={{ marginTop: 16 }}>{renderDemo()}</div>
       </div>
 
       <ReactQueryDevtools initialIsOpen />
