@@ -3,6 +3,7 @@ export const todoKeys = {
   lists: () => [...todoKeys.all, 'list'] as const,
   infinite: () => [...todoKeys.all, 'infinite'] as const,
   suspense: () => [...todoKeys.all, 'suspense'] as const,
-  error: () => [...todoKeys.all, 'error'] as const,
+  suspenseError: (shouldError: boolean) =>
+    [...todoKeys.all, 'suspense-error', shouldError] as const,
   detail: (id: number) => [...todoKeys.all, 'detail', id] as const,
 };

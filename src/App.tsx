@@ -4,10 +4,9 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { queryClient } from './queryClient';
 import TodosDemo from './TodosDemo';
 import InfiniteTodosDemo from './InfiniteTodosDemo';
-import SuspenseTodosDemo from './SuspenseTodosDemo';
-import ErrorDemoWithBoundary from './ErrorDemoWithBoundary';
+import SuspenseWithErrorDemo from './SuspenseWithErrorDemo';
 
-type DemoMode = 'basic' | 'infinite' | 'suspense' | 'error';
+type DemoMode = 'basic' | 'infinite' | 'suspense-error';
 
 export default function App() {
   const [showDemo, setShowDemo] = useState(true);
@@ -16,8 +15,7 @@ export default function App() {
   const renderDemo = () => {
     if (!showDemo) return null;
     if (mode === 'infinite') return <InfiniteTodosDemo />;
-    if (mode === 'suspense') return <SuspenseTodosDemo />;
-    if (mode === 'error') return <ErrorDemoWithBoundary />;
+    if (mode === 'suspense-error') return <SuspenseWithErrorDemo />;
     return <TodosDemo />;
   };
 
@@ -35,7 +33,7 @@ export default function App() {
           {showDemo ? '컴포넌트 언마운트' : '마운트'}
         </button>
 
-        <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+        <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
           <button disabled={mode === 'basic'} onClick={() => setMode('basic')}>
             기본
           </button>
@@ -46,16 +44,10 @@ export default function App() {
             무한스크롤
           </button>
           <button
-            disabled={mode === 'suspense'}
-            onClick={() => setMode('suspense')}
+            disabled={mode === 'suspense-error'}
+            onClick={() => setMode('suspense-error')}
           >
-            Suspense
-          </button>
-          <button
-            disabled={mode === 'error'}
-            onClick={() => setMode('error')}
-          >
-            에러 처리
+            Suspense + 에러
           </button>
         </div>
 

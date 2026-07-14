@@ -57,8 +57,13 @@ export async function fetchTodosPage(cursor: number): Promise<TodoPage> {
   };
 }
 
-export async function fetchTodosWithError(): Promise<Todo[]> {
-  console.log('[API] fetchTodosWithError 호출됨');
-  await delay(1000);
-  throw new Error('할일 목록 조회 실패: 네트워크 오류');
+export async function fetchTodosWithSuspenseError(
+  shouldError: boolean,
+): Promise<Todo[]> {
+  console.log('[API] fetchTodosWithSuspenseError 호출됨, shouldError:', shouldError);
+  await delay(1200);
+  if (shouldError) {
+    throw new Error('Suspense: 의도적 에러 발생 - 에러 처리 흐름을 관찰하세요');
+  }
+  return [...todos];
 }
