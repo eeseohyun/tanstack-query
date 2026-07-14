@@ -56,3 +56,9 @@ export async function fetchTodosPage(cursor: number): Promise<TodoPage> {
     nextCursor: hasNext ? cursor + 1 : null,
   };
 }
+
+export async function fetchTodosWithError(): Promise<Todo[]> {
+  console.log('[API] fetchTodosWithError 호출됨');
+  await delay(1000);
+  throw new Error('할일 목록 조회 실패: 네트워크 오류');
+}

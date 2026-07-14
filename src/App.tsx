@@ -5,8 +5,9 @@ import { queryClient } from './queryClient';
 import TodosDemo from './TodosDemo';
 import InfiniteTodosDemo from './InfiniteTodosDemo';
 import SuspenseTodosDemo from './SuspenseTodosDemo';
+import ErrorDemoWithBoundary from './ErrorDemoWithBoundary';
 
-type DemoMode = 'basic' | 'infinite' | 'suspense';
+type DemoMode = 'basic' | 'infinite' | 'suspense' | 'error';
 
 export default function App() {
   const [showDemo, setShowDemo] = useState(true);
@@ -16,6 +17,7 @@ export default function App() {
     if (!showDemo) return null;
     if (mode === 'infinite') return <InfiniteTodosDemo />;
     if (mode === 'suspense') return <SuspenseTodosDemo />;
+    if (mode === 'error') return <ErrorDemoWithBoundary />;
     return <TodosDemo />;
   };
 
@@ -48,6 +50,12 @@ export default function App() {
             onClick={() => setMode('suspense')}
           >
             Suspense
+          </button>
+          <button
+            disabled={mode === 'error'}
+            onClick={() => setMode('error')}
+          >
+            에러 처리
           </button>
         </div>
 
